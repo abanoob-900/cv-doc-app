@@ -2,7 +2,14 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CVDocApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<!--         <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/colorBlackApp</item>
+        <item name="colorPrimaryVariant">@color/colorBlackApp</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorBlackApp</item>
+        <item name="colorSecondaryVariant">@color/colorBlackApp</item>
+        <item name="colorOnSecondary">@color/black</item>
     </style>
 
     <style name="Theme.CVDocApp" parent="Base.Theme.CVDocApp" />
