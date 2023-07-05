@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531065826074",
+    "project_id": "cv-doc-app",
+    "storage_bucket": "cv-doc-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531065826074:android:6d954bba8b4bf248139aa3",
+        "android_client_info": {
+          "package_name": "com.bob.cvdocapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531065826074-c16nqajaddlhr7lv99mk9l41i72743vq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvxKV_HUSAtQetk0h4RJsMd0JztLyiYpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531065826074-c16nqajaddlhr7lv99mk9l41i72743vq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
