@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.AuthFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.AuthFragment"
         android:label="fragment_auth"
         tools:layout="@layout/fragment_auth" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/authLogFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.AuthLogFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.AuthLogFragment"
         android:label="fragment_auth_log"
         tools:layout="@layout/fragment_auth_log" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.LoginFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.RegisterFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/verifyOTPFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.VerifyOTPFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.VerifyOTPFragment"
         android:label="fragment_verify_o_t_p"
         tools:layout="@layout/fragment_verify_o_t_p" >
         <action
@@ -96,12 +96,12 @@
     </fragment>
     <fragment
         android:id="@+id/comRegisterMerchantFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.ComRegisterMerchantFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.ComRegisterMerchantFragment"
         android:label="fragment_com_register_merchant"
         tools:layout="@layout/fragment_com_register_merchant" />
     <fragment
         android:id="@+id/authRegFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.AuthRegFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.AuthRegFragment"
         android:label="AuthRegFragment"
         tools:layout="@layout/fragment_auth_reg" >
         <action
@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgetPasswordFragment"
-        android:name="com.bob.piecesstore.ui.fragment.auth.ForgetPasswordFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.auth.ForgetPasswordFragment"
         android:label="fragment_forget_password"
         tools:layout="@layout/fragment_forget_password" >
         <action
@@ -127,7 +127,7 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="com.bob.piecesstore.ui.fragment.profile.ChangePasswordFragment"
+        android:name="com.bob.cvdocapp.ui.fragment.profile.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
 
