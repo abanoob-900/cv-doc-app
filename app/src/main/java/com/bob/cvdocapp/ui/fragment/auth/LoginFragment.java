@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class LoginFragment extends ParentFragment {
     private String emailPhone = "";
 
     private int type;
+    private DatabaseReference mDatabaseReference;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -54,6 +56,8 @@ public class LoginFragment extends ParentFragment {
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
 
         mAuth = FirebaseAuth.getInstance();
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
         makeCallbackActions();
 
@@ -76,13 +80,37 @@ public class LoginFragment extends ParentFragment {
             if (ValidationText.isTextNull(mActivity, email, binding.etEmail)
                     && ValidationText.isTextNull(mActivity, password, binding.layoutPassword)) {
 
-                if (type == 1) {
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    signInWithData(emailPhone, password);
-                } else {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success");
 
+                                    Map<String, Object> mapToken = new HashMap<>();
 
-                }
+                                    mapToken.put("fcmToken", userToken);
+
+                                    String typeName = "";
+
+                                    if (type == 1) {
+                                        typeName = "Student";
+                                    } else if (type == 2) {
+                                        typeName = "Doctor";
+                                    } else if (type == 3) {
+                                        typeName = "Company";
+                                    }
+
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                                    Toast.makeText(mActivity, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mActivity, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
@@ -99,40 +127,5 @@ public class LoginFragment extends ParentFragment {
 
             Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_forgetPasswordFragment, bundle);
         });
-    }
-
-    private void signInWithData(String email, String password) {
-
-        if (!email.trim().equals("") && !password.trim().equals("")) {
-
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-
-                                Map<String, Object> mapToken = new HashMap<>();
-
-                                mapToken.put("fcmToken", userToken);
-
-                                if (type == 1) {
-
-
-                                } else {
-
-
-                                }
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-//                                    Toast.makeText(mActivity, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(mActivity, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
     }
 }
