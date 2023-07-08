@@ -1,5 +1,6 @@
 package com.bob.cvdocapp.ui.fragment.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -11,17 +12,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 
+import com.bob.cvdocapp.AppController.AppController;
 import com.bob.cvdocapp.R;
 import com.bob.cvdocapp.databinding.FragmentLoginBinding;
+import com.bob.cvdocapp.model.User;
 import com.bob.cvdocapp.ui.activity.HomeActivity;
 import com.bob.cvdocapp.utils.ParentFragment;
 import com.bob.cvdocapp.utils.ValidationText;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +42,8 @@ public class LoginFragment extends ParentFragment {
     private String emailPhone = "";
 
     private int type;
+
+    private String typeName = "";;
     private DatabaseReference mDatabaseReference;
 
     public LoginFragment() {
@@ -66,11 +75,15 @@ public class LoginFragment extends ParentFragment {
 
     private void makeCallbackActions() {
 
-//        if (type == 1) {
-//            binding.txtTitle.setText(getString(R.string.login) + " " + getString(R.string.as) + "" + getString(R.string.client));
-//        } else {
-//            binding.txtTitle.setText(getString(R.string.login) + " " + getString(R.string.as) + " " + getString(R.string.merchant));
-//        }
+        if (type == 1) {
+            typeName = "Student";
+        } else if (type == 2) {
+            typeName = "Doctor";
+        } else if (type == 3) {
+            typeName = "Company";
+        }
+
+        binding.txtTitle.setText(getString(R.string.login) + " " + getString(R.string.as) + " " + typeName);
 
         binding.btnNext.setOnClickListener(v -> {
 
@@ -93,15 +106,40 @@ public class LoginFragment extends ParentFragment {
 
                                     mapToken.put("fcmToken", userToken);
 
-                                    String typeName = "";
+                                    mDatabaseReference.child(typeName)
+                                            .child(mAuth.getUid())
+                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                    if (type == 1) {
-                                        typeName = "Student";
-                                    } else if (type == 2) {
-                                        typeName = "Doctor";
-                                    } else if (type == 3) {
-                                        typeName = "Company";
-                                    }
+                                                    if (snapshot.exists()) {
+
+                                                        User user = snapshot.getValue(User.class);
+
+                                                        if (user.getEmail().equals(email)) {
+
+                                                            AppController.getInstance().loginUser(user, type);
+
+                                                            startActivity(new Intent(mActivity, HomeActivity.class));
+                                                            mActivity.finish();
+                                                        } else {
+                                                            Toast.makeText(mActivity, "this is not a " + typeName + " of login.",
+                                                                    Toast.LENGTH_SHORT).show();
+
+                                                            mAuth.signOut();
+                                                        }
+                                                    } else {
+
+                                                        Toast.makeText(mActivity, "this is not a " + typeName + " of login.",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
 
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -109,6 +147,13 @@ public class LoginFragment extends ParentFragment {
 //                                    Toast.makeText(mActivity, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                     Toast.makeText(mActivity, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Toast.makeText(mActivity, "this is not a " + typeName + " of login.",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -118,14 +163,6 @@ public class LoginFragment extends ParentFragment {
 
         binding.tvCreateAccount.setOnClickListener(v -> {
             Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_authRegFragment);
-        });
-
-        binding.tvForgetPassword.setOnClickListener(v -> {
-
-            Bundle bundle = new Bundle();
-            bundle.putInt("type", type);
-
-            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_forgetPasswordFragment, bundle);
         });
     }
 }
